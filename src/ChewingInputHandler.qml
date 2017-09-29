@@ -185,7 +185,7 @@ InputHandler {
             if(canditateString.length){
                 canditateGroup=canditateString.split(' ')
                 for(var i=0 ; i<canditateString.length;i++){
-                    if(i!==1){
+                    if(i !== 1 || flag === true){
                         candidates.append({text: canditateGroup[i]})
                     }
                 }

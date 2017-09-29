@@ -1,6 +1,6 @@
 Name: jolla-chewing
 Version: 0.1
-Release: 1%{?dist}
+Release: 2
 Summary: Bopomofo layout and input method for Sailfish OS
 License: LGPLv2
 Source: %{name}-%{version}.tar.gz
