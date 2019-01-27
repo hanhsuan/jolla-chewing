@@ -33,6 +33,7 @@ InputHandler {
 
                         Text {
                             id: candidateText
+							anchors.centerIn: parent
 							color: highlighted ? Theme.highlightColor : Theme.primaryColor
                             font { pixelSize: Theme.fontSizeSmall; family: Theme.fontFamily}
                             text: model.text
