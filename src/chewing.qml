@@ -1,11 +1,13 @@
 import QtQuick 2.0
 import ".."
+import "./chewing"
 import com.jolla.keyboard 1.0
 
 KeyboardLayout {
+    property int zhuKeyHeight: keyHeight * 3 / 4
     type: "chewing"
     capsLockSupported: false
-    splitSupported: true
+    splitSupported: false
     
     KeyboardRow {
         visible: keyboard.inSymView
@@ -53,72 +55,71 @@ KeyboardLayout {
         BackspaceKey {}
     }
     
-    KeyboardRow {
+    Row {
+        height: keyHeight * 3 / 4
         visible: !keyboard.inSymView
-        separateButtonSizes: true
-        CharacterKey { caption: "ㄅ"}
-        CharacterKey { caption: "ㄉ"}
-        CharacterKey { caption: "ˇ"}
-        CharacterKey { caption: "ˋ"}
-        CharacterKey { caption: "ㄓ"}
-        CharacterKey { caption: "ˊ"}
-        CharacterKey { caption: "˙"}
-        CharacterKey { caption: "ㄚ"}
-        CharacterKey { caption: "ㄞ"}
-        CharacterKey { caption: "ㄢ"}
+        ZhuKey { caption: "ㄅ"}
+        ZhuKey { caption: "ㄉ"}
+        ZhuKey { caption: "ˇ"}
+        ZhuKey { caption: "ˋ"}
+        ZhuKey { caption: "ㄓ"}
+        ZhuKey { caption: "ˊ"}
+        ZhuKey { caption: "˙"}
+        ZhuKey { caption: "ㄚ"}
+        ZhuKey { caption: "ㄞ"}
+        ZhuKey { caption: "ㄢ"}
+    }
+    
+    Row {
+        height: keyHeight * 3 / 4
+        visible: !keyboard.inSymView
+        ZhuKey { caption: "ㄆ"}
+        ZhuKey { caption: "ㄊ"}
+        ZhuKey { caption: "ㄍ"}
+        ZhuKey { caption: "ㄐ"}
+        ZhuKey { caption: "ㄔ"}
+        ZhuKey { caption: "ㄗ"}
+        ZhuKey { caption: "ㄧ"}
+        ZhuKey { caption: "ㄛ"}
+        ZhuKey { caption: "ㄟ"}
+        ZhuKey { caption: "ㄣ"}
+    }
+    
+    Row {
+        height: keyHeight * 3 / 4
+        visible: !keyboard.inSymView
+        ZhuKey { caption: "ㄇ"}
+        ZhuKey { caption: "ㄋ"}
+        ZhuKey { caption: "ㄎ"}
+        ZhuKey { caption: "ㄑ"}
+        ZhuKey { caption: "ㄕ"}
+        ZhuKey { caption: "ㄘ"}
+        ZhuKey { caption: "ㄨ"}
+        ZhuKey { caption: "ㄜ"}
+        ZhuKey { caption: "ㄠ"}
+        ZhuKey { caption: "ㄤ"}
+
     }
 
-    KeyboardRow {
+    Row {
+        height: keyHeight * 3 / 4
         visible: !keyboard.inSymView
-        separateButtonSizes: true
-        CharacterKey { caption: "ㄆ"}
-        CharacterKey { caption: "ㄊ"}
-        CharacterKey { caption: "ㄍ"}
-        CharacterKey { caption: "ㄐ"}
-        CharacterKey { caption: "ㄔ"}
-        CharacterKey { caption: "ㄗ"}
-        CharacterKey { caption: "ㄧ"}
-        CharacterKey { caption: "ㄛ"}
-        CharacterKey { caption: "ㄟ"}
-        CharacterKey { caption: "ㄣ"}
-    }
-
-    KeyboardRow {
-        visible: !keyboard.inSymView
-        separateButtonSizes: true
-        CharacterKey { caption: "ㄇ"}
-        CharacterKey { caption: "ㄋ"}
-        CharacterKey { caption: "ㄎ"}
-        CharacterKey { caption: "ㄑ"}
-        CharacterKey { caption: "ㄕ"}
-        CharacterKey { caption: "ㄘ"}
-        CharacterKey { caption: "ㄨ"}
-        CharacterKey { caption: "ㄜ"}
-        CharacterKey { caption: "ㄠ"}
-        CharacterKey { caption: "ㄤ"}
-
-    }
-
-    KeyboardRow {
-        visible: !keyboard.inSymView
-        separateButtonSizes: true
-        CharacterKey { caption: "ㄈ"}
-        CharacterKey { caption: "ㄌ"}
-        CharacterKey { caption: "ㄏ"}
-        CharacterKey { caption: "ㄒ"}
-        CharacterKey { caption: "ㄖ"}
-        CharacterKey { caption: "ㄙ"}
-        CharacterKey { caption: "ㄩ"}
-        CharacterKey { caption: "ㄝ"}
-        CharacterKey { caption: "ㄡ"}
-        CharacterKey { caption: "ㄥ"}
+        ZhuKey { caption: "ㄈ"}
+        ZhuKey { caption: "ㄌ"}
+        ZhuKey { caption: "ㄏ"}
+        ZhuKey { caption: "ㄒ"}
+        ZhuKey { caption: "ㄖ"}
+        ZhuKey { caption: "ㄙ"}
+        ZhuKey { caption: "ㄩ"}
+        ZhuKey { caption: "ㄝ"}
+        ZhuKey { caption: "ㄡ"}
+        ZhuKey { caption: "ㄥ"}
     }
  
     KeyboardRow {
-        separateButtonSizes: true
         SymbolKey {
             width: symbolKeyWidthNarrow
-            caption: "標點符號"
+            caption: keyboard.inSymView ? "注音" : "符號"
         }
         
         SmallCharacterKey {
@@ -129,7 +130,10 @@ KeyboardLayout {
         }
         SpacebarKey {}
         
-        BackspaceKey {}
+        BackspaceKey {
+            visible: !keyboard.inSymView
+        }
+
         EnterKey {}
     }
 }
