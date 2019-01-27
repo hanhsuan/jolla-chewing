@@ -6,7 +6,55 @@ KeyboardLayout {
     type: "chewing"
     capsLockSupported: false
     splitSupported: true
+    
     KeyboardRow {
+        visible: keyboard.inSymView
+
+        CharacterKey { symView: "1"; symView2: "@" }
+        CharacterKey { symView: "2"; symView2: "/" }
+        CharacterKey { symView: "3"; symView2: "\\" }
+        CharacterKey { symView: "4"; symView2: "~" }
+        CharacterKey { symView: "5"; symView2: "^" }
+        CharacterKey { symView: "6"; symView2: "_" }
+        CharacterKey { symView: "7"; symView2: "¥" }
+        CharacterKey { symView: "8"; symView2: "€" }
+        CharacterKey { symView: "9"; symView2: "$" }
+        CharacterKey { symView: "0"; symView2: "£" }
+    }
+
+    KeyboardRow {
+        visible: keyboard.inSymView
+
+        CharacterKey { symView: "*"; symView2: "§" }
+        CharacterKey { symView: "#"; symView2: "=" }
+        CharacterKey { symView: "+"; symView2: "〈" }
+        CharacterKey { symView: "-"; symView2: "〉" }
+        CharacterKey { symView: "（"; symView2: "(" }
+        CharacterKey { symView: "）"; symView2: ")" }
+        CharacterKey { symView: "—"; symView2: "《" }
+        CharacterKey { symView: "…"; symView2: "》" }
+        CharacterKey { symView: "%"; symView2: "&" }
+        CharacterKey { symView: "'"; symView2: "\"" }
+    }
+
+    KeyboardRow {
+        visible: keyboard.inSymView
+
+        ShiftKey {}
+
+        CharacterKey { symView: "。"; symView2: "“" }
+        CharacterKey { symView: "，"; symView2: "”" }
+        CharacterKey { symView: "；"; symView2: ";" }
+        CharacterKey { symView: "："; symView2: ":" }
+        CharacterKey { symView: "、"; symView2: "·" }
+        CharacterKey { symView: "！"; symView2: "!" }
+        CharacterKey { symView: "？"; symView2: "?" }
+
+        BackspaceKey {}
+    }
+    
+    KeyboardRow {
+        visible: !keyboard.inSymView
         separateButtonSizes: true
         CharacterKey { caption: "ㄅ"}
         CharacterKey { caption: "ㄉ"}
@@ -21,6 +69,7 @@ KeyboardLayout {
     }
 
     KeyboardRow {
+        visible: !keyboard.inSymView
         separateButtonSizes: true
         CharacterKey { caption: "ㄆ"}
         CharacterKey { caption: "ㄊ"}
@@ -35,6 +84,7 @@ KeyboardLayout {
     }
 
     KeyboardRow {
+        visible: !keyboard.inSymView
         separateButtonSizes: true
         CharacterKey { caption: "ㄇ"}
         CharacterKey { caption: "ㄋ"}
@@ -49,52 +99,26 @@ KeyboardLayout {
 
     }
 
-    KeyboardRow {
-        SmallCharacterKey { caption: "ㄆ" }
-        SmallCharacterKey { caption: "ㄊ" }
-        SmallCharacterKey { caption: "ㄍ" }
-        SmallCharacterKey { caption: "ㄐ" }
-        SmallCharacterKey { caption: "ㄔ" }
-        SmallCharacterKey { caption: "ㄗ" }
-        SmallCharacterKey { caption: "ㄧ" }
-        SmallCharacterKey { caption: "ㄛ" }
-        SmallCharacterKey { caption: "ㄟ" }
-        SmallCharacterKey { caption: "ㄣ" }
-    }
 
     KeyboardRow {
-        SmallCharacterKey { caption: "ㄇ" }
-        SmallCharacterKey { caption: "ㄋ" }
-        SmallCharacterKey { caption: "ㄎ" }
-        SmallCharacterKey { caption: "ㄑ" }
-        SmallCharacterKey { caption: "ㄕ" }
-        SmallCharacterKey { caption: "ㄘ" }
-        SmallCharacterKey { caption: "ㄨ" }
-        SmallCharacterKey { caption: "ㄜ" }
-        SmallCharacterKey { caption: "ㄠ" }
-        SmallCharacterKey { caption: "ㄤ" }
-    }
-
-    KeyboardRow {
-        SmallCharacterKey { caption: "ㄈ" }
-        SmallCharacterKey { caption: "ㄌ" }
-        SmallCharacterKey { caption: "ㄏ" }
-        SmallCharacterKey { caption: "ㄒ" }
-        SmallCharacterKey { caption: "ㄖ" }
-        SmallCharacterKey { caption: "ㄙ" }
-        SmallCharacterKey { caption: "ㄩ" }
-        SmallCharacterKey { caption: "ㄝ" }
-        SmallCharacterKey { caption: "ㄡ" }
-        SmallCharacterKey { caption: "ㄥ" }
-        BackspaceKey {
-        }
-
+        visible: !keyboard.inSymView
+        separateButtonSizes: true
+        CharacterKey { caption: "ㄈ"}
+        CharacterKey { caption: "ㄌ"}
+        CharacterKey { caption: "ㄏ"}
+        CharacterKey { caption: "ㄒ"}
+        CharacterKey { caption: "ㄖ"}
+        CharacterKey { caption: "ㄙ"}
+        CharacterKey { caption: "ㄩ"}
+        CharacterKey { caption: "ㄝ"}
+        CharacterKey { caption: "ㄡ"}
+        CharacterKey { caption: "ㄥ"}
     }
 
     KeyboardRow {
         SymbolKey {
             width: symbolKeyWidthNarrow
-            caption: "符號"
+            caption: "標點符號"
         }
 
         SpacebarKey {}
@@ -105,7 +129,7 @@ KeyboardLayout {
             separator: SeparatorState.HiddenSeparator
             caption: "ㄦ"
         }
-        
+
         BackspaceKey {}
         EnterKey {}
     }
