@@ -6,10 +6,9 @@ import com.meego.maliitquick 1.0
 
 InputHandler {
     property string preedit
-    property var candidates
-
-    candidates: ListModel {
-    }
+    property var candidateGroup
+    property string candidateString
+    property var candidates: ListModel { }
 
     function handleKeyClick() {
         var candidateString
@@ -141,8 +140,8 @@ InputHandler {
 
                         Text {
                             id: candidateText
-							anchors.centerIn: parent
-							color: highlighted ? Theme.highlightColor : Theme.primaryColor
+                            anchors.centerIn: parent
+                            color: highlighted ? Theme.highlightColor : Theme.primaryColor
                             font { pixelSize: Theme.fontSizeSmall; family: Theme.fontFamily}
                             text: model.text
 
@@ -221,11 +220,71 @@ InputHandler {
                     }
 
                 }
-
             }
-
+        }
+    function handleKeyClick() {
+            var zhuYinString = "ㄅㄉˇˋㄓˊ˙ㄚㄞㄢㄆㄊㄍㄐㄔㄗㄧㄛㄟㄣㄇㄋㄎㄑㄕㄘㄨㄜㄠㄤㄈㄌㄏㄒㄖㄙㄩㄝㄡㄥㄦ"
+            var handled = false
+            if(pressedKey.key === Qt.Key_Backspace){
+                if(preedit!==""){
+                    chewing.handleBackSpace()
+                    handled=true
+                }
+            }
+            else if(pressedKey.key === Qt.Key_Return){
+                if(preedit !== ""){
+                    commit(preedit)
+                    handled = true
+                }
+            }
+            else if (zhuYinString.indexOf(pressedKey.text) >= 0 ||
+                     pressedKey.key === Qt.Key_Space) {
+                chewing.handleDefault(pressedKey.text)
+                handled=true
+            } else {
+                if (preedit !== "") {
+                    commit(preedit + pressedKey.text)
+                    handled = true
+                }
+            }
+            updateCandidates()
+            return handled
         }
 
     }
 
+    function accept(index){
+        if(index === 0){
+            MInputMethodQuick.sendCommit(candidates.get(index).text)
+        }
+        else{
+            MInputMethodQuick.sendCommit(preedit.substring(0,(preedit.length-1))+candidates.get(index).text)
+        }
+            reset()
+    }
+    
+    function updateCandidates() {
+        candidates.clear()
+        preedit=chewing.getPreedit();
+        candidateString=chewing.getCandidate()
+        
+        candidateString=preedit+" "+candidateString
+        if(candidateString.length){
+            candidateGroup=candidateString.split(' ')
+            for(var i=0 ; i<candidateString.length;i++){
+                if(i !== 1){
+                    candidates.append({text: candidateGroup[i]})
+                }
+            }
+        }
+        
+        MInputMethodQuick.sendPreedit(preedit);  
+    }
+
+    function reset(){
+        candidates.clear()
+        chewing.handleReset()
+        chewing.handleBackSpace()
+        preedit = ""
+    }
 }
