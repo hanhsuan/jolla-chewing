@@ -28,7 +28,7 @@
  *
  */
 
-import QtQuick 2.2
+import QtQuick 2.0
 import com.jolla.keyboard 1.0
 import Sailfish.Silica 1.0
 
@@ -46,28 +46,30 @@ KeyBase {
     property string nativeAccents // accents considered native to the written language. not rendered.
     property string nativeAccentsShifted
     property bool fixedWidth
-    property alias useBoldFont: primary.font.bold
+    property alias useBoldFont: textItem.font.bold
+    property alias pixelSize: textItem.font.pixelSize
+    property alias fontSizeMode: textItem.fontSizeMode
+    property alias textAnchors: textItem.anchors
 
     keyType: KeyType.CharacterKey
-    text: primary.text
-    keyText: primary.text
+    text: keyText
+    keyText: attributes.inSymView && symView.length > 0 ? (attributes.inSymView2 ? symView2 : symView)
+                                                        : (attributes.isShifted ? captionShifted : caption)
 
     Text {
-        id: primary
-        anchors.centerIn: parent
-        anchors.horizontalCenterOffset: (leftPadding - rightPadding) / 2
+        id: textItem
+        anchors.fill: parent
+        anchors.leftMargin: leftPadding
+        anchors.rightMargin: rightPadding
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         font.family: Theme.fontFamily
         font.pixelSize: Theme.fontSizeLarge
         color: pressed ? Theme.highlightColor : Theme.primaryColor
-        text: attributes.inSymView && symView.length > 0 ? (attributes.inSymView2 ? symView2 : symView)
-                                                         : (attributes.isShifted ? captionShifted : caption)
+        text: aCharKey.keyText
     }
 
-    Image {
-        source: "graphic-keyboard-highlight-top.png"
-        anchors.right: parent.right
+    KeySeparator {
         visible: (separator === SeparatorState.AutomaticSeparator && implicitSeparator)
                  || separator === SeparatorState.VisibleSeparator
     }
