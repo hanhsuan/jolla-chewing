@@ -122,17 +122,28 @@ KeyboardLayout {
             caption: keyboard.inSymView ? "注音" : "符號"
         }
         
-        SmallCharacterKey {
+        ZhuComboKey {
+            visible: !keyboard.inSymView
             implicitWidth: punctuationKeyWidth
             fixedWidth: true
             separator: SeparatorState.HiddenSeparator
             caption: "ㄦ"
+            accents: "，。"
         }
+        
+        ChineseContextAwareCommaKey {
+            visible: keyboard.inSymView
+        }
+
         SpacebarKey {}
         
         BackspaceKey {
             visible: !keyboard.inSymView
         }
+
+        // ChineseContextAwarePeriodKey {
+        //     visible: keyboard.inSymView
+        // }
 
         EnterKey {}
     }

@@ -9,7 +9,7 @@ Requires:   libqmlchewing_plugin
 Requires:   jolla-keyboard
 
 %description
-Allows you to use bopomofo to enter traditional Chinese  on Sailfish OS.
+Allows you to use bopomofo to enter traditional Chinese on Sailfish OS.
 
 %define debug_package %{nil}
 
@@ -24,17 +24,18 @@ Allows you to use bopomofo to enter traditional Chinese  on Sailfish OS.
 #make install DESTDIR=%{buildroot}
 mkdir -p %{buildroot}/usr/share/maliit/plugins/com/jolla/layouts/
 mkdir -p %{buildroot}/usr/share/maliit/plugins/com/jolla/layouts/chewing/
-cp -a src/chewing.qml %{buildroot}/usr/share/maliit/plugins/com/jolla/layouts/
-cp -a src/chewing.conf  %{buildroot}/usr/share/maliit/plugins/com/jolla/layouts/
+cp -a src/layouts/chewing/ZhuKey.qml %{buildroot}/usr/share/maliit/plugins/com/jolla/layouts/chewing/
+cp -a src/layouts/chewing/ZhuComboKey.qml %{buildroot}/usr/share/maliit/plugins/com/jolla/layouts/chewing/
+cp -a src/layouts/chewing.qml %{buildroot}/usr/share/maliit/plugins/com/jolla/layouts/
+cp -a src/layouts/chewing.conf %{buildroot}/usr/share/maliit/plugins/com/jolla/layouts/
 cp -a src/ChewingInputHandler.qml %{buildroot}/usr/share/maliit/plugins/com/jolla/
-cp -a src/chewing/ZhuKey.qml %{buildroot}/usr/share/maliit/plugins/com/jolla/layouts/chewing/
-
 
 %clean
 rm -rf %{buildroot}
 
 %files
 /usr/share/maliit/plugins/com/jolla/layouts/chewing/ZhuKey.qml
+/usr/share/maliit/plugins/com/jolla/layouts/chewing/ZhuComboKey.qml
 /usr/share/maliit/plugins/com/jolla/layouts/chewing.qml
 /usr/share/maliit/plugins/com/jolla/layouts/chewing.conf
 /usr/share/maliit/plugins/com/jolla/ChewingInputHandler.qml
