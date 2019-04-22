@@ -204,7 +204,6 @@ InputHandler {
         candidateString=preedit+" "+candidateString
         if(candidateString.length){
             candidateGroup=candidateString.split(' ')
-            console.warn("candidateGroup: ", candidateGroup)
             for(var i=0 ; i<candidateGroup.length;i++){
                 if(i !== 1){
                     // Skips empty entries in the candidate string

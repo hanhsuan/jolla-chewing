@@ -51,9 +51,7 @@ KeyboardLayout {
         CharacterKey { symView: "、"; symView2: "·" }
         CharacterKey { symView: "！"; symView2: "!" }
         CharacterKey { symView: "？"; symView2: "?" }
-        ChineseContextAwarePeriodKey {
-            active: keyboard.inSymView
-        }
+        CharacterKey { symView: "。"; symView2: "." }
     }
     
     KeyboardRow {
