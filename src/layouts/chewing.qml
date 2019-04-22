@@ -44,8 +44,8 @@ KeyboardLayout {
 
         ShiftKey {}
 
-        CharacterKey { symView: "。"; symView2: "“" }
-        CharacterKey { symView: "，"; symView2: "”" }
+        CharacterKey { symView: "「"; symView2: "『" }
+        CharacterKey { symView: "」"; symView2: "』" }
         CharacterKey { symView: "；"; symView2: ";" }
         CharacterKey { symView: "："; symView2: ":" }
         CharacterKey { symView: "、"; symView2: "·" }
@@ -120,30 +120,31 @@ KeyboardLayout {
         SymbolKey {
             width: symbolKeyWidthNarrow
             caption: keyboard.inSymView ? "注音" : "符號"
+
+            Connections {
+                target: keyboard
+                onInSymViewChanged: updateSizes()
+            }
         }
         
-        ZhuComboKey {
-            visible: !keyboard.inSymView
+        SmallCharacterKey {
+            active: !keyboard.inSymView
             implicitWidth: punctuationKeyWidth
             fixedWidth: true
             separator: SeparatorState.HiddenSeparator
             caption: "ㄦ"
-            accents: "，。"
         }
         
         ChineseContextAwareCommaKey {
-            visible: keyboard.inSymView
+            active: keyboard.inSymView
         }
 
         SpacebarKey {}
         
         BackspaceKey {
-            visible: !keyboard.inSymView
+            active: !keyboard.inSymView
+            width: punctuationKeyWidth
         }
-
-        // ChineseContextAwarePeriodKey {
-        //     visible: keyboard.inSymView
-        // }
 
         EnterKey {}
     }
