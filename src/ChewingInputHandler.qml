@@ -6,8 +6,8 @@ import H.H.chewing 1.0
 
 InputHandler {
     property string preedit
-    property var canditateGroup
-    property string canditateString
+    property var candidateGroup
+    property string candidateString
     property var candidates: ListModel { }
     Chewing {
         id:chewing
@@ -33,7 +33,8 @@ InputHandler {
 
                         Text {
                             id: candidateText
-							color: highlighted ? Theme.highlightColor : Theme.primaryColor
+                            anchors.centerIn: parent
+                            color: highlighted ? Theme.highlightColor : Theme.primaryColor
                             font { pixelSize: Theme.fontSizeSmall; family: Theme.fontFamily}
                             text: model.text
                         }
@@ -90,9 +91,11 @@ InputHandler {
                 SilicaListView {
                     id: verticalList
 
-                    model: chewing.candidates
+                    model: candidates
                     anchors.fill: parent
                     clip: true
+                    boundsBehavior: Flickable.StopAtBounds
+
                     header: Component {
                         PasteButtonVertical {
                             visible: Clipboard.hasText
@@ -149,8 +152,8 @@ InputHandler {
             }
         }
     function handleKeyClick() {
+            var zhuYinString = "ㄅㄉˇˋㄓˊ˙ㄚㄞㄢㄆㄊㄍㄐㄔㄗㄧㄛㄟㄣㄇㄋㄎㄑㄕㄘㄨㄜㄠㄤㄈㄌㄏㄒㄖㄙㄩㄝㄡㄥㄦ"
             var handled = false
-            var flag = false
             if(pressedKey.key === Qt.Key_Backspace){
                 if(preedit!==""){
                     chewing.handleBackSpace()
@@ -163,35 +166,17 @@ InputHandler {
                     handled = true
                 }
             }
-            else if(pressedKey.keyType === KeyType.SymbolKey){
-                commit(preedit)
-                handled = true
-                flag = true
-            }
-            else{
+            else if (zhuYinString.indexOf(pressedKey.text) >= 0 ||
+                     pressedKey.key === Qt.Key_Space) {
                 chewing.handleDefault(pressedKey.text)
                 handled=true
-            }
-            candidates.clear()
-            preedit=chewing.getPreedit();
-            if(flag === true){
-                canditateString=chewing.getSymbol()
-            }
-            else{
-                canditateString=chewing.getCandidate()
-            }
-
-            canditateString=preedit+" "+canditateString
-            if(canditateString.length){
-                canditateGroup=canditateString.split(' ')
-                for(var i=0 ; i<canditateString.length;i++){
-                    if(i !== 1 || flag === true){
-                        candidates.append({text: canditateGroup[i]})
-                    }
+            } else {
+                if (preedit !== "") {
+                    commit(preedit + pressedKey.text)
+                    handled = true
                 }
             }
-
-            MInputMethodQuick.sendPreedit(preedit);
+            updateCandidates()
             return handled
         }
 
@@ -209,6 +194,29 @@ InputHandler {
             MInputMethodQuick.sendCommit(preedit.substring(0,(preedit.length-1))+candidates.get(index).text)
         }
             reset()
+    }
+    
+    function updateCandidates() {
+        candidates.clear()
+        preedit=chewing.getPreedit();
+        candidateString=chewing.getCandidate()
+        
+        candidateString=preedit+" "+candidateString
+        if(candidateString.length){
+            candidateGroup=candidateString.split(' ')
+            for(var i=0 ; i<candidateGroup.length;i++){
+                if(i !== 1){
+                    // Skips empty entries in the candidate string
+                    // TODO: Fix the trailing whitespace on the QML plugin side
+                    if (candidateGroup[i] === "") {
+                        continue
+                    }
+                    candidates.append({text: candidateGroup[i]})
+                }
+            }
+        }
+        
+        MInputMethodQuick.sendPreedit(preedit);  
     }
 
     function reset(){

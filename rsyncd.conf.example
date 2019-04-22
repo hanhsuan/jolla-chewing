@@ -1,0 +1,7 @@
+port=12000
+
+[chewing]
+path = /PATH/TO/YOUR/FOLDER/jolla-chewing/src
+comment = chewing keyboard
+read only = true
+use chroot = false
