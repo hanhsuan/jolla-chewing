@@ -7,7 +7,7 @@ KeyboardLayout {
     property int zhuKeyHeight: keyHeight * 3 / 4
     type: "chewing"
     capsLockSupported: false
-    splitSupported: false
+    splitSupported: true
     
     KeyboardRow {
         visible: keyboard.inSymView
@@ -56,7 +56,8 @@ KeyboardLayout {
         }
     }
     
-    Row {
+    KeyboardRow {
+        followRowHeight: false
         height: keyHeight * 3 / 4
         visible: !keyboard.inSymView
         ZhuKey { caption: "ㄅ"}
@@ -71,7 +72,8 @@ KeyboardLayout {
         ZhuKey { caption: "ㄢ"}
     }
     
-    Row {
+    KeyboardRow {
+        followRowHeight: false
         height: keyHeight * 3 / 4
         visible: !keyboard.inSymView
         ZhuKey { caption: "ㄆ"}
@@ -86,7 +88,8 @@ KeyboardLayout {
         ZhuKey { caption: "ㄣ"}
     }
     
-    Row {
+    KeyboardRow {
+        followRowHeight: false
         height: keyHeight * 3 / 4
         visible: !keyboard.inSymView
         ZhuKey { caption: "ㄇ"}
@@ -102,7 +105,8 @@ KeyboardLayout {
 
     }
 
-    Row {
+    KeyboardRow {
+        followRowHeight: false
         height: keyHeight * 3 / 4
         visible: !keyboard.inSymView
         ZhuKey { caption: "ㄈ"}
@@ -118,10 +122,12 @@ KeyboardLayout {
     }
  
     KeyboardRow {
+        splitIndex: 4
         SymbolKey {
             width: symbolKeyWidthNarrow
             caption: keyboard.inSymView ? "注音" : "符號"
 
+            // Needed to swap the ㄦ and punctuation key in symview
             Connections {
                 target: keyboard
                 onInSymViewChanged: updateSizes()
@@ -131,9 +137,14 @@ KeyboardLayout {
         SmallCharacterKey {
             active: !keyboard.inSymView
             implicitWidth: punctuationKeyWidth
-            fixedWidth: true
+            fixedWidth: keyboard.portraitMode ? true : false
             separator: SeparatorState.HiddenSeparator
             caption: "ㄦ"
+
+            Connections {
+                target: keyboard
+                onPortraitModeChanged: updateSizes()
+            }
         }
         
         ChineseContextAwareCommaKey {
@@ -141,6 +152,10 @@ KeyboardLayout {
         }
 
         SpacebarKey {}
+        SpacebarKey {
+            active: splitActive
+            languageLabel: ""
+        }
         
         BackspaceKey {
             width: punctuationKeyWidth
