@@ -51,8 +51,9 @@ KeyboardLayout {
         CharacterKey { symView: "、"; symView2: "·" }
         CharacterKey { symView: "！"; symView2: "!" }
         CharacterKey { symView: "？"; symView2: "?" }
-
-        BackspaceKey {}
+        ChineseContextAwarePeriodKey {
+            active: keyboard.inSymView
+        }
     }
     
     Row {
@@ -142,7 +143,6 @@ KeyboardLayout {
         SpacebarKey {}
         
         BackspaceKey {
-            active: !keyboard.inSymView
             width: punctuationKeyWidth
         }
 
