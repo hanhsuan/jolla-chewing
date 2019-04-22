@@ -172,6 +172,16 @@ InputHandler {
                 model: chewing.candidates
                 anchors.fill: parent
                 clip: true
+                boundsBehavior: Flickable.StopAtBounds
+
+                header: Component {
+
+                PasteButtonVertical {
+                    visible: Clipboard.hasText
+                    width: verticalList.width
+                    height: visible ? geometry.keyHeightLandscape : 0
+                    popupParent: verticalContainer
+                    popupAnchor: 2 // center
 
                 Connections {
                     target: Clipboard
@@ -271,8 +281,14 @@ InputHandler {
         candidateString=preedit+" "+candidateString
         if(candidateString.length){
             candidateGroup=candidateString.split(' ')
-            for(var i=0 ; i<candidateString.length;i++){
+            console.warn("candidateGroup: ", candidateGroup)
+            for(var i=0 ; i<candidateGroup.length;i++){
                 if(i !== 1){
+                    // Skips empty entries in the candidate string
+                    // TODO: Fix the trailing whitespace on the QML plugin side
+                    if (candidateGroup[i] === "") {
+                        continue
+                    }
                     candidates.append({text: candidateGroup[i]})
                 }
             }
