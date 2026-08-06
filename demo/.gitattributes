@@ -1,0 +1,5 @@
+add_chewing_keyboard.jpg filter=lfs diff=lfs merge=lfs -text
+chewing_input.jpg filter=lfs diff=lfs merge=lfs -text
+chewing_keyboard_added.jpg filter=lfs diff=lfs merge=lfs -text
+select_text_input.jpg filter=lfs diff=lfs merge=lfs -text
+use_chewing_keyboard.jpg filter=lfs diff=lfs merge=lfs -text
