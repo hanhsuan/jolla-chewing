@@ -9,7 +9,7 @@ Requires:   libqmlchewing_plugin
 Requires:   jolla-keyboard
 
 %description
-Allows you to use bopomofo to enter traditional Chinese  on Sailfish OS.
+Allows you to use bopomofo to enter traditional Chinese on Sailfish OS.
 
 %define debug_package %{nil}
 
