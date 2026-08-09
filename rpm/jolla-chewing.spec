@@ -1,10 +1,10 @@
-Name: jolla-chewing
-Version: 0.1
-Release: 3
-Summary: Bopomofo layout and input method for Sailfish OS
-License: LGPLv2
-URL: https://github.com/hanhsuan/jolla-chewing
-Source: %{name}-%{version}.tar.gz
+Name:       jolla-chewing
+Version:    0.2
+Release:    1
+Summary:    Bopomofo layout and input method for Sailfish OS
+License:    LGPLv2
+URL:        https://github.com/hanhsuan/jolla-chewing
+Source:     %{name}-%{version}.tar.gz
 Requires:   libqmlchewing_plugin
 Requires:   jolla-keyboard
 
@@ -20,16 +20,18 @@ Allows you to use bopomofo to enter traditional Chinese on Sailfish OS.
 # do nothing
 
 %install
-mkdir -p %{buildroot}/usr/share/maliit/plugins/com/jolla/layouts/
-cp -a src/chewing.qml %{buildroot}/usr/share/maliit/plugins/com/jolla/layouts/
-cp -a src/chewing.conf  %{buildroot}/usr/share/maliit/plugins/com/jolla/layouts/
-cp -a src/ChewingInputHandler.qml %{buildroot}/usr/share/maliit/plugins/com/jolla/
+mkdir -p %{buildroot}%{_datadir}/maliit/plugins/com/jolla/layouts/chewing
+cp -a src/layouts/chewing/BopomofoKey.qml %{buildroot}%{_datadir}/maliit/plugins/com/jolla/layouts/chewing
+cp -a src/layouts/chewing.qml %{buildroot}%{_datadir}/maliit/plugins/com/jolla/layouts/
+cp -a src/layouts/chewing.conf  %{buildroot}%{_datadir}/maliit/plugins/com/jolla/layouts/
+cp -a src/ChewingInputHandler.qml %{buildroot}%{_datadir}/maliit/plugins/com/jolla/
 
 
 %clean
 rm -rf %{buildroot}
 
 %files
-/usr/share/maliit/plugins/com/jolla/layouts/chewing.qml
-/usr/share/maliit/plugins/com/jolla/layouts/chewing.conf
-/usr/share/maliit/plugins/com/jolla/ChewingInputHandler.qml
+%{_datadir}/maliit/plugins/com/jolla/layouts/chewing/BopomofoKey.qml
+%{_datadir}/maliit/plugins/com/jolla/layouts/chewing.qml
+%{_datadir}/maliit/plugins/com/jolla/layouts/chewing.conf
+%{_datadir}/maliit/plugins/com/jolla/ChewingInputHandler.qml
