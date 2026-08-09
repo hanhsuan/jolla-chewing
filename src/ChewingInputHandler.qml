@@ -8,51 +8,43 @@ InputHandler {
     property string preedit
     property var candidates
 
-    candidates: ListModel {
-    }
-
     function handleKeyClick() {
-        var candidateString
-        var candidateGroup
-        var handled = false;
-        var flag = false;
         if (pressedKey.key === Qt.Key_Backspace) {
             if (preedit !== "") {
                 chewing.handleBackSpace();
-                handled = true;
+                updateCandidates();
+                return true;
             }
         } else if (pressedKey.key === Qt.Key_Return) {
             if (preedit !== "") {
                 commit(preedit);
-                handled = true;
+                return true;
             }
-        } else if (pressedKey.keyType === KeyType.SymbolKey) {
-            commit(preedit);
-            handled = true;
-            flag = true;
-        } else {
+        } else if (!keyboard.inSymView || pressedKey.key === Qt.Key_Space) {
             chewing.handleDefault(pressedKey.text);
-            handled = true;
+            updateCandidates();
+            return true;
         }
+        if (preedit !== "") {
+            commit(preedit + pressedKey.text);
+            return true;
+        }
+        return false;
+    }
+
+    function updateCandidates() {
+        var candidateList;
         candidates.clear();
         preedit = chewing.getPreedit();
-        if (flag === true)
-            candidateString = chewing.getSymbol();
-        else
-            candidateString = chewing.getCandidate();
-        candidateString = preedit + " " + candidateString;
-        if (candidateString.length) {
-            candidateGroup = candidateString.split(' ');
-            for (var i = 0; i < candidateString.length; i++) {
-                if (i !== 1 || flag === true)
-                    candidates.append({
-                        "text": candidateGroup[i]
-                    });
+        candidateList = (preedit + " " + chewing.getCandidate()).trim().split(/\s+/);
+        for (var i = 0; i < candidateList.length; i++) {
+            if (candidateList[i] !== "")
+                candidates.append({
+                "text": candidateList[i]
+            });
 
-            }
         }
         MInputMethodQuick.sendPreedit(preedit);
-        return handled;
     }
 
     function commit(text) {
@@ -92,6 +84,9 @@ InputHandler {
             }
         }
 
+    }
+
+    candidates: ListModel {
     }
 
     topItem: Component {
@@ -142,6 +137,7 @@ InputHandler {
                         Text {
                             id: candidateText
 
+                            anchors.centerIn: parent
                             color: highlighted ? Theme.highlightColor : Theme.primaryColor
                             text: model.text
 
@@ -169,9 +165,10 @@ InputHandler {
             SilicaListView {
                 id: verticalList
 
-                model: chewing.candidates
+                model: candidates
                 anchors.fill: parent
                 clip: true
+                boundsBehavior: Flickable.StopAtBounds
 
                 Connections {
                     target: Clipboard
