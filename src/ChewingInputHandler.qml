@@ -11,47 +11,27 @@ InputHandler {
     property var candidates: ListModel { }
 
     function handleKeyClick() {
-        var candidateString
-        var candidateGroup
-        var handled = false;
-        var flag = false;
         if (pressedKey.key === Qt.Key_Backspace) {
             if (preedit !== "") {
                 chewing.handleBackSpace();
-                handled = true;
+                updateCandidates();
+                return true;
             }
         } else if (pressedKey.key === Qt.Key_Return) {
             if (preedit !== "") {
                 commit(preedit);
-                handled = true;
+                return true;
             }
-        } else if (pressedKey.keyType === KeyType.SymbolKey) {
-            commit(preedit);
-            handled = true;
-            flag = true;
-        } else {
+        } else if (!keyboard.inSymView || pressedKey.key === Qt.Key_Space) {
             chewing.handleDefault(pressedKey.text);
-            handled = true;
+            updateCandidates();
+            return true;
         }
-        candidates.clear();
-        preedit = chewing.getPreedit();
-        if (flag === true)
-            candidateString = chewing.getSymbol();
-        else
-            candidateString = chewing.getCandidate();
-        candidateString = preedit + " " + candidateString;
-        if (candidateString.length) {
-            candidateGroup = candidateString.split(' ');
-            for (var i = 0; i < candidateString.length; i++) {
-                if (i !== 1 || flag === true)
-                    candidates.append({
-                        "text": candidateGroup[i]
-                    });
-
-            }
+        if (preedit !== "") {
+            commit(preedit + pressedKey.text);
+            return true;
         }
-        MInputMethodQuick.sendPreedit(preedit);
-        return handled;
+        return false;
     }
 
     function commit(text) {
@@ -90,7 +70,6 @@ InputHandler {
                 keyboard.expandedPaste = false;
             }
         }
-
     }
 
     topItem: Component {
@@ -149,17 +128,11 @@ InputHandler {
                                 pixelSize: Theme.fontSizeSmall
                                 family: Theme.fontFamily
                             }
-
                         }
-
                     }
-
                 }
-
             }
-
         }
-
     }
 
     verticalItem: Component {
@@ -175,29 +148,6 @@ InputHandler {
                 boundsBehavior: Flickable.StopAtBounds
 
                 header: Component {
-
-                PasteButtonVertical {
-                    visible: Clipboard.hasText
-                    width: verticalList.width
-                    height: visible ? geometry.keyHeightLandscape : 0
-                    popupParent: verticalContainer
-                    popupAnchor: 2 // center
-
-                Connections {
-                    target: Clipboard
-                    onTextChanged: {
-                        verticalList.positionViewAtBeginning();
-                        clipboardChange.restart();
-                    }
-                }
-
-                Timer {
-                    id: clipboardChange
-
-                    interval: 1000
-                }
-
-                header: Component {
                     PasteButtonVertical {
                         visible: Clipboard.hasText
                         width: verticalList.width
@@ -209,7 +159,6 @@ InputHandler {
                             MInputMethodQuick.sendCommit(Clipboard.text);
                         }
                     }
-
                 }
 
                 delegate: BackgroundItem {
@@ -228,39 +177,9 @@ InputHandler {
                         fontSizeMode: Text.HorizontalFit
                         text: model.text
                     }
-
                 }
             }
         }
-    function handleKeyClick() {
-            var zhuYinString = "ㄅㄉˇˋㄓˊ˙ㄚㄞㄢㄆㄊㄍㄐㄔㄗㄧㄛㄟㄣㄇㄋㄎㄑㄕㄘㄨㄜㄠㄤㄈㄌㄏㄒㄖㄙㄩㄝㄡㄥㄦ"
-            var handled = false
-            if(pressedKey.key === Qt.Key_Backspace){
-                if(preedit!==""){
-                    chewing.handleBackSpace()
-                    handled=true
-                }
-            }
-            else if(pressedKey.key === Qt.Key_Return){
-                if(preedit !== ""){
-                    commit(preedit)
-                    handled = true
-                }
-            }
-            else if (zhuYinString.indexOf(pressedKey.text) >= 0 ||
-                     pressedKey.key === Qt.Key_Space) {
-                chewing.handleDefault(pressedKey.text)
-                handled=true
-            } else {
-                if (preedit !== "") {
-                    commit(preedit + pressedKey.text)
-                    handled = true
-                }
-            }
-            updateCandidates()
-            return handled
-        }
-
     }
 
     function accept(index){
@@ -274,26 +193,18 @@ InputHandler {
     }
     
     function updateCandidates() {
-        candidates.clear()
-        preedit=chewing.getPreedit();
-        candidateString=chewing.getCandidate()
-        
-        candidateString=preedit+" "+candidateString
-        if(candidateString.length){
-            candidateGroup=candidateString.split(' ')
-            for(var i=0 ; i<candidateGroup.length;i++){
-                if(i !== 1){
-                    // Skips empty entries in the candidate string
-                    // TODO: Fix the trailing whitespace on the QML plugin side
-                    if (candidateGroup[i] === "") {
-                        continue
-                    }
-                    candidates.append({text: candidateGroup[i]})
-                }
-            }
+        var candidateList;
+        candidates.clear();
+        preedit = chewing.getPreedit();
+        candidateList = (preedit + " " + chewing.getCandidate()).trim().split(/\s+/);
+        for (var i = 0; i < candidateList.length; i++) {
+            if (candidateList[i] !== "")
+                candidates.append({
+                "text": candidateList[i]
+            });
+
         }
-        
-        MInputMethodQuick.sendPreedit(preedit);  
+        MInputMethodQuick.sendPreedit(preedit);
     }
 
     function reset(){
