@@ -4,7 +4,7 @@ import "./chewing"
 import com.jolla.keyboard 1.0
 
 KeyboardLayout {
-    property int zhuKeyHeight: keyHeight * 3 / 4
+    property int bopomofoKeyHeight: keyHeight * 0.75
     type: "chewing"
     capsLockSupported: false
     splitSupported: true
@@ -56,67 +56,67 @@ KeyboardLayout {
     
     KeyboardRow {
         followRowHeight: false
-        height: keyHeight * 3 / 4
+        height: bopomofoKeyHeight
         visible: !keyboard.inSymView
-        ZhuKey { caption: "ㄅ"}
-        ZhuKey { caption: "ㄉ"}
-        ZhuKey { caption: "ˇ"}
-        ZhuKey { caption: "ˋ"}
-        ZhuKey { caption: "ㄓ"}
-        ZhuKey { caption: "ˊ"}
-        ZhuKey { caption: "˙"}
-        ZhuKey { caption: "ㄚ"}
-        ZhuKey { caption: "ㄞ"}
-        ZhuKey { caption: "ㄢ"}
+        BopomofoKey { caption: "ㄅ"}
+        BopomofoKey { caption: "ㄉ"}
+        BopomofoKey { caption: "ˇ"}
+        BopomofoKey { caption: "ˋ"}
+        BopomofoKey { caption: "ㄓ"}
+        BopomofoKey { caption: "ˊ"}
+        BopomofoKey { caption: "˙"}
+        BopomofoKey { caption: "ㄚ"}
+        BopomofoKey { caption: "ㄞ"}
+        BopomofoKey { caption: "ㄢ"}
     }
     
     KeyboardRow {
         followRowHeight: false
-        height: keyHeight * 3 / 4
+        height: bopomofoKeyHeight
         visible: !keyboard.inSymView
-        ZhuKey { caption: "ㄆ"}
-        ZhuKey { caption: "ㄊ"}
-        ZhuKey { caption: "ㄍ"}
-        ZhuKey { caption: "ㄐ"}
-        ZhuKey { caption: "ㄔ"}
-        ZhuKey { caption: "ㄗ"}
-        ZhuKey { caption: "ㄧ"}
-        ZhuKey { caption: "ㄛ"}
-        ZhuKey { caption: "ㄟ"}
-        ZhuKey { caption: "ㄣ"}
+        BopomofoKey { caption: "ㄆ"}
+        BopomofoKey { caption: "ㄊ"}
+        BopomofoKey { caption: "ㄍ"}
+        BopomofoKey { caption: "ㄐ"}
+        BopomofoKey { caption: "ㄔ"}
+        BopomofoKey { caption: "ㄗ"}
+        BopomofoKey { caption: "ㄧ"}
+        BopomofoKey { caption: "ㄛ"}
+        BopomofoKey { caption: "ㄟ"}
+        BopomofoKey { caption: "ㄣ"}
     }
     
     KeyboardRow {
         followRowHeight: false
-        height: keyHeight * 3 / 4
+        height: bopomofoKeyHeight
         visible: !keyboard.inSymView
-        ZhuKey { caption: "ㄇ"}
-        ZhuKey { caption: "ㄋ"}
-        ZhuKey { caption: "ㄎ"}
-        ZhuKey { caption: "ㄑ"}
-        ZhuKey { caption: "ㄕ"}
-        ZhuKey { caption: "ㄘ"}
-        ZhuKey { caption: "ㄨ"}
-        ZhuKey { caption: "ㄜ"}
-        ZhuKey { caption: "ㄠ"}
-        ZhuKey { caption: "ㄤ"}
+        BopomofoKey { caption: "ㄇ"}
+        BopomofoKey { caption: "ㄋ"}
+        BopomofoKey { caption: "ㄎ"}
+        BopomofoKey { caption: "ㄑ"}
+        BopomofoKey { caption: "ㄕ"}
+        BopomofoKey { caption: "ㄘ"}
+        BopomofoKey { caption: "ㄨ"}
+        BopomofoKey { caption: "ㄜ"}
+        BopomofoKey { caption: "ㄠ"}
+        BopomofoKey { caption: "ㄤ"}
 
     }
 
     KeyboardRow {
         followRowHeight: false
-        height: keyHeight * 3 / 4
+        height: bopomofoKeyHeight
         visible: !keyboard.inSymView
-        ZhuKey { caption: "ㄈ"}
-        ZhuKey { caption: "ㄌ"}
-        ZhuKey { caption: "ㄏ"}
-        ZhuKey { caption: "ㄒ"}
-        ZhuKey { caption: "ㄖ"}
-        ZhuKey { caption: "ㄙ"}
-        ZhuKey { caption: "ㄩ"}
-        ZhuKey { caption: "ㄝ"}
-        ZhuKey { caption: "ㄡ"}
-        ZhuKey { caption: "ㄥ"}
+        BopomofoKey { caption: "ㄈ"}
+        BopomofoKey { caption: "ㄌ"}
+        BopomofoKey { caption: "ㄏ"}
+        BopomofoKey { caption: "ㄒ"}
+        BopomofoKey { caption: "ㄖ"}
+        BopomofoKey { caption: "ㄙ"}
+        BopomofoKey { caption: "ㄩ"}
+        BopomofoKey { caption: "ㄝ"}
+        BopomofoKey { caption: "ㄡ"}
+        BopomofoKey { caption: "ㄥ"}
     }
 
     KeyboardRow {
