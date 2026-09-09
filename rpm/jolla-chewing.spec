@@ -22,11 +22,12 @@ Allows you to use bopomofo to enter traditional Chinese on Sailfish OS.
 
 %install
 mkdir -p %{buildroot}/usr/share/maliit/plugins/com/jolla/layouts/
+mkdir -p %{buildroot}/usr/share/maliit/plugins/com/jolla/handlers/
 mkdir -p %{buildroot}/usr/share/maliit/plugins/com/jolla/layouts/chewing/
 cp -a src/layouts/chewing/BopomofoKey.qml %{buildroot}/usr/share/maliit/plugins/com/jolla/layouts/chewing/
 cp -a src/layouts/chewing.qml %{buildroot}/usr/share/maliit/plugins/com/jolla/layouts/
 cp -a src/layouts/chewing.conf %{buildroot}/usr/share/maliit/plugins/com/jolla/layouts/
-cp -a src/ChewingInputHandler.qml %{buildroot}/usr/share/maliit/plugins/com/jolla/
+cp -a src/handlers/ChewingInputHandler.qml %{buildroot}/usr/share/maliit/plugins/com/jolla/handlers/
 
 %clean
 rm -rf %{buildroot}
@@ -35,4 +36,4 @@ rm -rf %{buildroot}
 /usr/share/maliit/plugins/com/jolla/layouts/chewing/BopomofoKey.qml
 /usr/share/maliit/plugins/com/jolla/layouts/chewing.qml
 /usr/share/maliit/plugins/com/jolla/layouts/chewing.conf
-/usr/share/maliit/plugins/com/jolla/ChewingInputHandler.qml
+/usr/share/maliit/plugins/com/jolla/handlers/ChewingInputHandler.qml
