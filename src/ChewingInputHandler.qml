@@ -53,6 +53,21 @@ InputHandler {
         chewing.handleBackSpace();
         preedit = "";
     }
+    
+    function updateCandidates() {
+        var candidateList;
+        candidates.clear();
+        preedit = chewing.getPreedit();
+        candidateList = (preedit + " " + chewing.getCandidate()).trim().split(/\s+/);
+        for (var i = 0; i < candidateList.length; i++) {
+            if (candidateList[i] !== "")
+                candidates.append({
+                "text": candidateList[i]
+            });
+
+        }
+        MInputMethodQuick.sendPreedit(preedit);
+    }
 
     Chewing {
         id: chewing
@@ -180,37 +195,5 @@ InputHandler {
                 }
             }
         }
-    }
-
-    function accept(index){
-        if(index === 0){
-            MInputMethodQuick.sendCommit(candidates.get(index).text)
-        }
-        else{
-            MInputMethodQuick.sendCommit(preedit.substring(0,(preedit.length-1))+candidates.get(index).text)
-        }
-            reset()
-    }
-    
-    function updateCandidates() {
-        var candidateList;
-        candidates.clear();
-        preedit = chewing.getPreedit();
-        candidateList = (preedit + " " + chewing.getCandidate()).trim().split(/\s+/);
-        for (var i = 0; i < candidateList.length; i++) {
-            if (candidateList[i] !== "")
-                candidates.append({
-                "text": candidateList[i]
-            });
-
-        }
-        MInputMethodQuick.sendPreedit(preedit);
-    }
-
-    function reset(){
-        candidates.clear()
-        chewing.handleReset()
-        chewing.handleBackSpace()
-        preedit = ""
     }
 }
