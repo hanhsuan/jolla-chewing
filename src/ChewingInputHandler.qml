@@ -6,8 +6,6 @@ import com.meego.maliitquick 1.0
 
 InputHandler {
     property string preedit
-    property var candidateGroup
-    property string candidateString
     property var candidates: ListModel { }
 
     function handleKeyClick() {
