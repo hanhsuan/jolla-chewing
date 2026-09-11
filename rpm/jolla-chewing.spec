@@ -31,8 +31,7 @@ cp -a src/ChewingInputHandler.qml %{buildroot}/usr/share/maliit/plugins/com/joll
 rm -rf %{buildroot}
 
 %files
-/usr/share/maliit/plugins/com/jolla/layouts/chewing/ZhuKey.qml
-/usr/share/maliit/plugins/com/jolla/layouts/chewing/ZhuComboKey.qml
+/usr/share/maliit/plugins/com/jolla/layouts/chewing/BopomofoKey.qml
 /usr/share/maliit/plugins/com/jolla/layouts/chewing.qml
 /usr/share/maliit/plugins/com/jolla/layouts/chewing.conf
 /usr/share/maliit/plugins/com/jolla/ChewingInputHandler.qml
