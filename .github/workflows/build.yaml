@@ -1,0 +1,20 @@
+name: Build and test
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v7
+    - name: Prepare
+      shell: bash
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        sudo apt-get update
+        sudo apt-get install rpm -y
+    - name: Build
+      shell: bash
+      run: |
+        rpmbuild --nodeps --define "_topdir $PWD" --define "_sourcedir $PWD" --define "_builddir $PWD"  -bb rpm/jolla-chewing.spec
