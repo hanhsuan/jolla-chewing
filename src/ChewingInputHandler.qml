@@ -6,53 +6,30 @@ import com.meego.maliitquick 1.0
 
 InputHandler {
     property string preedit
-    property var candidates
-
-    candidates: ListModel {
-    }
+    property var candidates: ListModel { }
 
     function handleKeyClick() {
-        var candidateString
-        var candidateGroup
-        var handled = false;
-        var flag = false;
         if (pressedKey.key === Qt.Key_Backspace) {
             if (preedit !== "") {
                 chewing.handleBackSpace();
-                handled = true;
+                updateCandidates();
+                return true;
             }
         } else if (pressedKey.key === Qt.Key_Return) {
             if (preedit !== "") {
                 commit(preedit);
-                handled = true;
+                return true;
             }
-        } else if (pressedKey.keyType === KeyType.SymbolKey) {
-            commit(preedit);
-            handled = true;
-            flag = true;
-        } else {
+        } else if (!keyboard.inSymView || pressedKey.key === Qt.Key_Space) {
             chewing.handleDefault(pressedKey.text);
-            handled = true;
+            updateCandidates();
+            return true;
         }
-        candidates.clear();
-        preedit = chewing.getPreedit();
-        if (flag === true)
-            candidateString = chewing.getSymbol();
-        else
-            candidateString = chewing.getCandidate();
-        candidateString = preedit + " " + candidateString;
-        if (candidateString.length) {
-            candidateGroup = candidateString.split(' ');
-            for (var i = 0; i < candidateString.length; i++) {
-                if (i !== 1 || flag === true)
-                    candidates.append({
-                        "text": candidateGroup[i]
-                    });
-
-            }
+        if (preedit !== "") {
+            commit(preedit + pressedKey.text);
+            return true;
         }
-        MInputMethodQuick.sendPreedit(preedit);
-        return handled;
+        return false;
     }
 
     function commit(text) {
@@ -74,6 +51,21 @@ InputHandler {
         chewing.handleBackSpace();
         preedit = "";
     }
+    
+    function updateCandidates() {
+        var candidateList;
+        candidates.clear();
+        preedit = chewing.getPreedit();
+        candidateList = (preedit + " " + chewing.getCandidate()).trim().split(/\s+/);
+        for (var i = 0; i < candidateList.length; i++) {
+            if (candidateList[i] !== "")
+                candidates.append({
+                "text": candidateList[i]
+            });
+
+        }
+        MInputMethodQuick.sendPreedit(preedit);
+    }
 
     Chewing {
         id: chewing
@@ -91,7 +83,6 @@ InputHandler {
                 keyboard.expandedPaste = false;
             }
         }
-
     }
 
     topItem: Component {
@@ -141,25 +132,20 @@ InputHandler {
 
                         Text {
                             id: candidateText
-
+                            anchors.centerIn: parent
                             color: highlighted ? Theme.highlightColor : Theme.primaryColor
+                            font { pixelSize: Theme.fontSizeSmall; family: Theme.fontFamily}
                             text: model.text
 
                             font {
                                 pixelSize: Theme.fontSizeSmall
                                 family: Theme.fontFamily
                             }
-
                         }
-
                     }
-
                 }
-
             }
-
         }
-
     }
 
     verticalItem: Component {
@@ -172,20 +158,7 @@ InputHandler {
                 model: chewing.candidates
                 anchors.fill: parent
                 clip: true
-
-                Connections {
-                    target: Clipboard
-                    onTextChanged: {
-                        verticalList.positionViewAtBeginning();
-                        clipboardChange.restart();
-                    }
-                }
-
-                Timer {
-                    id: clipboardChange
-
-                    interval: 1000
-                }
+                boundsBehavior: Flickable.StopAtBounds
 
                 header: Component {
                     PasteButtonVertical {
@@ -199,7 +172,6 @@ InputHandler {
                             MInputMethodQuick.sendCommit(Clipboard.text);
                         }
                     }
-
                 }
 
                 delegate: BackgroundItem {
@@ -218,13 +190,8 @@ InputHandler {
                         fontSizeMode: Text.HorizontalFit
                         text: model.text
                     }
-
                 }
-
             }
-
         }
-
     }
-
 }
