@@ -38,7 +38,7 @@ sfdk build
 * Copy rpm pakcages to the VM
 
 ```bash
-scp -p 2223 -i ~/SailfishOS/vmshare/ssh/private_keys/sdk chewing-data-0.8.5-0.i486.rpm libchewing-0.8.5-0.i486.rpm libqmlchewing_plugin-0.1-3.i486.rpm jolla-chewing-0.1-3.i486.rpm root@localhost:/home/defaultuser/
+scp -p 2223 -i ~/SailfishOS/vmshare/ssh/private_keys/sdk libchewing-0.8.5-0.i486.rpm libqmlchewing_plugin-0.1-3.i486.rpm jolla-chewing-0.2-1.noarch.rpm root@localhost:/home/defaultuser/
 ```
 
 * ssh into the VM to install the rpm package
@@ -48,7 +48,7 @@ ssh -p 2223 -i ~/SailfishOS/vmshare/ssh/private_keys/sdk root@localhost
 
 cd /home/defaultuser/
 
-pkcon install-local chewing-data-0.8.5-0.i486.rpm libchewing-0.8.5-0.i486.rpm libqmlchewing_plugin-0.1-3.i486.rpm jolla-chewing-0.1-3.i486.rpm
+pkcon install-local libchewing-0.8.5-0.i486.rpm libqmlchewing_plugin-0.1-3.i486.rpm jolla-chewing-0.2-1.noarch.rpm
 ```
 
 ## How to enable Chewing
@@ -75,3 +75,6 @@ pkcon install-local chewing-data-0.8.5-0.i486.rpm libchewing-0.8.5-0.i486.rpm li
 
 ## Thanks
 Thank [Arvid](https://github.com/ecryth/jolla-anthy-jp) for providing a good example that helped me understand how to do it back in 2016.
+
+## Note
+* Use of the prebuilt packages in this repository is at the user’s own risk.
