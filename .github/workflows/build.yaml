@@ -1,6 +1,12 @@
 name: Build and test
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        type: boolean
+        description: 'Upload rpms to github or not'
+        default: false
 
 jobs:
   build:
@@ -18,3 +24,16 @@ jobs:
       shell: bash
       run: |
         rpmbuild --nodeps --build-in-place  --define "_topdir $PWD" --define "_sourcedir $PWD" --define "_builddir $PWD"  -bb rpm/jolla-chewing.spec
+    - name: Create release
+      if: ${{ fromJson(github.event.inputs.publish) }}
+      shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -x
+        assets=()
+        for asset in RPMS/noarch/*.rpm; do
+          assets+=("$asset")
+          extracted_version=$(echo "$asset" | grep -P -o '[0-9]+\.[0-9]+-[0-9]+')
+        done
+        gh release create "$extracted_version" "${assets[@]}" --title "$extracted_version"
