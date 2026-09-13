@@ -1,12 +1,13 @@
-Name: jolla-chewing
-Version: 0.2
-Release: 1
-Summary: Bopomofo layout and input method for Sailfish OS
-License: LGPLv2
-URL: https://github.com/hanhsuan/jolla-chewing
-Source: %{name}-%{version}.tar.gz
+Name:       jolla-chewing
+Version:    0.2
+Release:    1
+Summary:    Bopomofo layout and input method for Sailfish OS
+License:    LGPLv2
+URL:        https://github.com/hanhsuan/jolla-chewing
+Source:     %{name}-%{version}.tar.gz
 Requires:   libqmlchewing_plugin
 Requires:   jolla-keyboard
+BuildArch:  noarch
 
 %description
 Allows you to use bopomofo to enter traditional Chinese on Sailfish OS.
