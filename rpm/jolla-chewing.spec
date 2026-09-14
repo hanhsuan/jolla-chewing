@@ -7,6 +7,7 @@ URL:        https://github.com/hanhsuan/jolla-chewing
 Source:     %{name}-%{version}.tar.gz
 Requires:   libqmlchewing_plugin
 Requires:   jolla-keyboard
+Requires:   sailfish-version >= 5.2.0
 BuildArch:  noarch
 
 %description
