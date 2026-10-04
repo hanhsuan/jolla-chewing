@@ -9,6 +9,9 @@ InputHandler {
     property var candidates: ListModel { }
 
     function handleKeyClick() {
+
+        keyboard.expandedPaste = false;
+
         if (pressedKey.key === Qt.Key_Backspace) {
             if (preedit !== "") {
                 chewing.handleBackSpace();
@@ -48,7 +51,6 @@ InputHandler {
     function reset() {
         candidates.clear();
         chewing.handleReset();
-        chewing.handleBackSpace();
         preedit = "";
     }
     
@@ -134,13 +136,11 @@ InputHandler {
                             id: candidateText
                             anchors.centerIn: parent
                             color: highlighted ? Theme.highlightColor : Theme.primaryColor
-                            font { pixelSize: Theme.fontSizeSmall; family: Theme.fontFamily}
-                            text: model.text
-
                             font {
                                 pixelSize: Theme.fontSizeSmall
                                 family: Theme.fontFamily
                             }
+                            text: model.text
                         }
                     }
                 }
@@ -155,7 +155,7 @@ InputHandler {
             SilicaListView {
                 id: verticalList
 
-                model: chewing.candidates
+                model: candidates
                 anchors.fill: parent
                 clip: true
                 boundsBehavior: Flickable.StopAtBounds
@@ -168,8 +168,11 @@ InputHandler {
                         popupParent: verticalContainer
                         popupAnchor: 2 // center
                         onClicked: {
-                            commit(preedit);
+                            if (preedit.length > 0)
+                                commit(preedit);
+
                             MInputMethodQuick.sendCommit(Clipboard.text);
+                            keyboard.expandedPaste = false;
                         }
                     }
                 }
