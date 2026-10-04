@@ -9,6 +9,9 @@ InputHandler {
     property var candidates: ListModel { }
 
     function handleKeyClick() {
+
+        keyboard.expandedPaste = false;
+
         if (pressedKey.key === Qt.Key_Backspace) {
             if (preedit !== "") {
                 chewing.handleBackSpace();
